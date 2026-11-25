@@ -22,6 +22,17 @@ mvn spring-boot:run     # runs the job on startup
 mvn test                # runs ImportPersonJobTest
 ```
 
+## Check data in H2
+1. `mvn spring-boot:run` (app stays running after the job finishes)
+2. Open http://localhost:8080/h2-console
+3. JDBC URL `jdbc:h2:mem:batchdb`, user `sa`, empty password, then Connect
+4. Run:
+```sql
+SELECT * FROM person;                 -- imported rows
+SELECT * FROM BATCH_JOB_EXECUTION;    -- job status (COMPLETED / FAILED)
+SELECT * FROM BATCH_STEP_EXECUTION;   -- read/write counts per step
+```
+
 ## Learning roadmap
 - [x] Job, Step, chunk-oriented processing
 - [ ] Job parameters and restartability
